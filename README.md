@@ -1,4 +1,4 @@
-# Real-Time-Transit-Guard
+# Real-Time Transit Guard (RTG) & Smart Product Recommendation
 
 ## Problem Statement
 Local vendors, including kirana stores and HORECA businesses, rely on B2B platforms for supplies but face several operational challenges:
