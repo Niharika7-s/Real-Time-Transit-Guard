@@ -1,46 +1,110 @@
-# Real-Time Transit Guard (RTG)
+# Real-Time-Transit-Guard
 
-## Problem Understanding
-Local vendors, such as Kirana stores and HORECA businesses, rely on B2B platforms for supplies but lack real-time, predictive visibility into their inbound orders. Current systems only show vague statuses like “Dispatched,” forcing vendors to make repeated calls for updates. This uncertainty leads to poor staff scheduling, inventory mismanagement, lost revenue, and wasted time.
+## Problem Statement
+Local vendors, including kirana stores and HORECA businesses, rely on B2B platforms for supplies but face several operational challenges:
 
-## Proposed Prototype Solution
-We propose **Real-Time Transit Guard (RTG)** — an integration layer leveraging logistics, AI, and GPS data to give vendors complete transparency into their orders. **We are focused on three key modules:**
+- **Product Visibility Issues:** Many relevant products go unnoticed, limiting inventory variety.  
+- **Repetitive Purchasing:** Retailers often reorder the same items, missing opportunities for cross-selling.  
+- **Flat Order Value:** Average Order Value (AOV) remains stagnant without personalized suggestions.  
+- **Unclear Order Status:** Generic updates like “Dispatched” force vendors to make multiple follow-up calls.  
+- **Low Platform Retention:** Around one-third of retailers stop using the platform within six months due to poor shopping experiences.  
 
-### Unified Real-Time Tracking Map (RTGM)
-Displays live vehicle GPS, traffic-aware routes, and remaining distance/time.
+These challenges cause inefficiencies in inventory management, staff scheduling, and revenue optimization.  
 
-### Predictive ETA & Delay Alert Engine (P-ETA)
-Uses historical delivery data, real-time speed, and route conditions to predict delays and send proactive alerts.
+---
 
-### Supplier Preparation Timeline
-Provides visibility from order confirmation to dispatch, ensuring vendors are confident about inbound stock.
+## Proposed Solution
+We propose a **hybrid mobile and web prototype** integrating **real-time order tracking, AI-based product recommendations, dynamic notifications, feedback, and sharing features**, giving vendors complete visibility and actionable insights.  
 
-## Uniqueness and Impact
-Unlike generic tracking systems, RTG is proactive and predictive — it foresees disruptions and alerts vendors early. This reduces operational inefficiencies, minimizes vendor stress, and cuts down customer support calls by up to 30%. For B2B platforms, it enhances trust, retention, and loyalty, while for vendors, it turns uncertainty into operational certainty.
+### Core Components
 
-## Features
-- Live tracking map with vehicle location
-- Predictive ETA and proactive delay alerts
-- Supplier preparation timeline
-- Simple notification system
+#### 1. Unified Real-Time Tracking Map (RTGM)
+- Real-time GPS tracking of inbound orders.  
+- Traffic-aware routes and estimated time/distance remaining.  
+- Accessible on both mobile (Flutter) and web platforms.  
+
+#### 2. Predictive ETA & Alerts (P-ETA)
+- Combines historical delivery patterns and live route conditions to forecast delays.  
+- Sends early notifications to vendors for better operational planning.  
+
+#### 3. Supplier Preparation Timeline
+- Displays each stage from order confirmation to dispatch.  
+- Helps vendors schedule staff and manage inventory efficiently.  
+
+#### 4. AI-Driven Product Recommendation Engine
+- Suggests products based on browsing patterns, searches, and past orders.  
+- Hybrid approach: collaborative filtering + content-based filtering.  
+- Detects seasonal trends and repeated orders.  
+- Improves AOV by 15–20% and repeat purchase rate by 25%.  
+
+#### 5. Contextual Notifications
+- Alerts triggered by:  
+  - Order updates and predicted delays  
+  - Seasonal trends, festivals, and climate conditions  
+  - Frequent combo packs and repeat purchases  
+- Deep-linked notifications direct vendors to product pages, carts, or tracking views.  
+
+#### 6. Feedback & Sharing
+- Post-order feedback forms to capture vendor satisfaction.  
+- Share products, bundles, or promotions to enhance engagement.  
+
+#### 7. Web Platform
+- Complementary website in development for dashboards, order tracking, and vendor analytics.  
+- Enables desktop access for enhanced vendor visibility and management.  
+
+---
+
+## Distinctive Advantages
+- **Predictive & Proactive:** Alerts vendors before issues occur.  
+- **Operational Clarity:** Minimizes unnecessary calls and stress by up to 30%.  
+- **Business Enhancement:** Supports cross-selling, upselling, and product diversity.  
+- **Improved Engagement:** Personalized notifications and recommendations increase retention.  
+- **Unified Ecosystem:** Combines order tracking, discovery, notifications, and feedback in one platform.  
+
+---
+
+## Key Features
+- Real-time vehicle tracking map (mobile + web)  
+- Predictive ETA alerts  
+- Supplier preparation timeline  
+- Personalized product recommendations  
+- Contextual notifications (trends, climate, festivals, combos)  
+- Post-order feedback forms  
+- Sharing options for products and bundles  
+- Cross-platform accessibility via mobile and web  
+
+---
 
 ## Tech Stack
-- Frontend: Flutter / React Native
-- Backend: Python / Node.js
-- Maps: Google Maps API
-- ML: Scikit-learn / Rules Engine
-- Notifications: Twilio / mock alerts
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | Flutter (mobile), React.js / Flutter Web (website), Google Maps / Mapbox, share_plus, Firebase Notifications |
+| Backend | Node.js (Express/Fastify) or Python (Flask/FastAPI) |
+| Database | PostgreSQL (structured), MongoDB (analytics & catalog) |
+| AI/ML | Python scikit-learn, TensorFlow/PyTorch (recommendation engine) |
+| APIs | REST/GraphQL, WebSocket for real-time updates, API Gateway |
+| DevOps | Docker, Kubernetes (optional), CI/CD via GitHub Actions |
+
+---
 
 ## Team Contributions
-| Member Name | Contribution |
-|-------------|--------------|
-| Member 1    | Backend & ML engine |
-| Member 2    | Frontend UI |
-| Member 3    | Mapping & Notifications |
-| Member 4    | Documentation & Video |
 
-## Future Scope
-- Integrate with real-time vehicle GPS from delivery partners
-- Expand the predictive engine using advanced ML algorithms
-- Add automated SMS/WhatsApp notifications for vendors
-- Dashboard analytics for vendor performance insights
+| Member | Responsibility |
+|--------|----------------|
+| Zainab Fathimah | Backend & ML engine (Recommendation + ETA prediction) |
+| Grandhimi Niharika | Frontend UI (Mobile & Web interfaces) |
+| Vallarapu Bindu Venkata Sai Sree| Map integration, notifications, and live tracking |
+| Uppugandla Manjeera | Documentation, videos, testing |
+
+---
+
+## Future Enhancements
+- Real-time GPS integration from delivery partners for precise tracking  
+- Advanced ML models for better predictive capabilities  
+- Automated SMS / WhatsApp notifications for vendors  
+- Vendor dashboard analytics for performance and insights  
+- Gamification and loyalty programs to increase engagement  
+
+---
+
