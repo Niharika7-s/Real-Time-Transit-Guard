@@ -1,88 +1,132 @@
-# Qwipo Firebase Functions Setup
+# Real-Time Transit Guard (RTG) & Smart Product Recommendation
 
-This directory contains the Firebase Cloud Functions for the RTG Vendor App as specified in the guide.
+## Problem Statement 
 
-## 📁 Structure
-```
-qwipo-fns/
-├── firebase.json          # Firebase configuration
-├── functions/
-│   ├── package.json       # Node.js dependencies
-│   └── index.js          # Cloud Functions code
-├── deploy.bat            # Windows deployment script
-└── README.md             # This file
-```
+Small retailers, such as kirana stores and HORECA outlets, depend on B2B platforms to procure their daily supplies.  
+Despite the availability of these platforms, their experience is hampered by several issues that reduce efficiency, satisfaction, and long-term usage.  
 
-## 🚀 Quick Setup
+### Key Challenges  
+1. **Limited Product Discovery**  
+   - Large product catalogs exist, yet many relevant items remain unnoticed.  
+   - Retailers often repurchase the same items and miss opportunities to diversify.  
 
-### 1. Install Dependencies
-```bash
-cd functions
-npm install
-```
+2. **Repetitive Ordering**  
+   - Vendors frequently reorder known items without exploring alternatives.  
+   - Cross-selling and upselling chances are left untapped.  
 
-### 2. Deploy Functions
-```bash
-# Option 1: Use the batch file (Windows)
-deploy.bat
+3. **Low Average Order Value (AOV)**  
+   - Lack of tailored suggestions keeps basket sizes small.  
+   - No dynamic promotions or bundles to improve order size.  
 
-# Option 2: Manual deployment
-firebase deploy --only functions
-```
+4. **Unclear Delivery Timelines**  
+   - Updates such as “Dispatched” are vague.  
+   - Retailers end up making repeated follow-up calls due to uncertainty.  
 
-## 🔧 Prerequisites
+5. **Weak User Retention**  
+   - Many vendors stop using the platform after a few months.  
+   - Lack of personalization and weak communication reduce loyalty.  
 
-1. **Node.js**: Download from [nodejs.org](https://nodejs.org/)
-2. **Firebase CLI**: `npm install -g firebase-tools`
-3. **Firebase Login**: `firebase login`
-4. **Project Selection**: `firebase use --add` (select your project)
+---
 
-## 📋 Functions Created
+### Impact  
+- **Inventory issues** → Overstocking or stock-outs.  
+- **Operational delays** → Staff and workflow become unpredictable.  
+- **Revenue stagnation** → Cross-selling and upselling potential remains unused.  
+- **User frustration** → Vendors switch back to offline suppliers.  
 
-### 1. Recommendations Function
-- **Endpoint**: `/recommendations`
-- **Method**: GET
-- **Parameters**: `retailerId`, `limit` (optional)
-- **Features**: AI-powered product recommendations based on purchase history
+---
 
-### 2. Events Function
-- **Endpoint**: `/events`
-- **Method**: POST
-- **Body**: `{ retailerId, type, productId, metadata }`
-- **Features**: Logs user interactions (views, cart additions, purchases)
+## Proposed Solution
+We propose a **hybrid mobile and web prototype** that combines real-time order tracking, AI-driven product recommendations, smart notifications, feedback, and sharing features.  
+This enables vendors to gain better visibility and actionable insights.  
 
-## 🧪 Testing
+### Core Components
 
-### Test Recommendations
-```bash
-curl "https://asia-south1-YOUR_PROJECT.cloudfunctions.net/recommendations?retailerId=r123&testMode=true"
-```
+#### 1. Unified Real-Time Tracking Map (RTGM)
+- Tracks inbound orders in real-time using GPS.  
+- Shows traffic-aware routes with estimated time and distance.  
+- Works on both mobile (Flutter) and web applications.  
 
-### Test Events
-```bash
-curl -X POST "https://asia-south1-YOUR_PROJECT.cloudfunctions.net/events?testMode=true" \
-  -H "Content-Type: application/json" \
-  -d '{"retailerId":"r123", "type":"product_impression", "productId":"p101", "metadata":{}}'
-```
+#### 2. Predictive ETA & Alerts (P-ETA)
+- Uses historical delivery data and live route conditions to forecast delays.  
+- Sends proactive notifications to vendors for better planning.  
 
-## 🔗 Integration
+#### 3. Supplier Preparation Timeline
+- Shows all stages from order confirmation to dispatch.  
+- Assists retailers in planning staff and managing inventory.  
 
-After deployment, update your Flutter app:
-1. Get your function URLs from Firebase Console
-2. Update `lib/widgets/recommendations_widget.dart`
-3. Replace `YOUR_PROJECT` with your actual Firebase project ID
+#### 4. AI-Powered Product Recommendation Engine
+- Suggests products based on browsing behavior, searches, and past purchases.  
+- Uses a hybrid approach (collaborative + content-based filtering).  
+- Captures seasonal trends and frequent orders.  
+- Can improve AOV by 15–20% and repeat purchases by 25%.  
 
-## 📊 Firestore Schema
+#### 5. Contextual Notifications
+- Alerts triggered by:  
+  - Order status and predicted delays  
+  - Seasonal patterns, festivals, and climate changes  
+  - Combo packs and frequently bought items  
+- Deep links take users directly to product pages, carts, or tracking views.  
 
-### Collections Required:
-- **products**: Product catalog
-- **orders**: Order history
-- **events**: User interaction logs
-- **retailers**: Retailer information (optional)
+#### 6. Feedback & Sharing
+- Collects post-order feedback from retailers.  
+- Enables product and promotion sharing for better engagement.  
 
-### Sample Data:
-See the main `FIREBASE_SETUP.md` for sample data creation.
+#### 7. Web Platform
+- Web dashboard for order tracking and analytics.  
+- Desktop access enhances visibility and control for vendors.  
 
+---
 
+## Distinctive Advantages
+- **Proactive and Predictive:** Vendors get notified before issues arise.  
+- **Clarity in Operations:** Cuts down unnecessary calls by 30%.  
+- **Business Growth:** Improves product discovery, upselling, and cross-selling.  
+- **Stronger Retention:** Personalized engagement drives loyalty.  
+- **Unified Platform:** Combines tracking, discovery, notifications, and feedback.  
 
+---
 
+## Key Features
+- Real-time order tracking map (mobile + web)  
+- Predictive ETA notifications  
+- Supplier preparation timeline  
+- Personalized recommendations  
+- Context-based alerts (festivals, weather, seasonal demand)  
+- Post-order feedback forms  
+- Product and bundle sharing options  
+- Cross-platform support (mobile and web)  
+
+---
+
+## Tech Stack
+
+| **Layer**    | **Technology Used** |
+|--------------|----------------------|
+| **Frontend** | Flutter (Mobile), React.js with HTML, CSS, JavaScript (Web) |
+| **Backend**  | Node.js (local development) |
+| **Database** | Local/in-memory storage (no external DB used) |
+| **AI/ML**    | Rule-based recommendation engine |
+| **APIs**     | Google Maps API, Socket.io (real-time), Flutter APIs, Local APIs |
+
+---
+
+## Team Contributions
+
+| Member | Responsibility |
+|--------|----------------|
+| Zainab Fathimah | Backend & ML engine (Recommendation + ETA prediction) |
+| Grandhimi Niharika | Frontend UI (Mobile & Web) |
+| Vallarapu Bindu Venkata Sai Sree | Map integration, notifications, and live tracking |
+| Uppugandla Manjeera | Documentation, testing, and videos |
+
+---
+
+## Future Enhancements
+- GPS integration from logistics partners for accurate real-time tracking  
+- Advanced ML for improved recommendation accuracy and ETA predictions  
+- Automated SMS and WhatsApp notifications for vendors  
+- Vendor performance dashboards and analytics  
+- Loyalty programs and gamification to increase engagement  
+
+---
