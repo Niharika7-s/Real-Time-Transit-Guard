@@ -77,14 +77,13 @@ We propose a **hybrid mobile and web prototype** integrating **real-time order t
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | Flutter (mobile), React.js / Flutter Web (website), Google Maps / Mapbox, share_plus, Firebase Notifications |
-| Backend | Node.js (Express/Fastify) or Python (Flask/FastAPI) |
-| Database | PostgreSQL (structured), MongoDB (analytics & catalog) |
-| AI/ML | Python scikit-learn, TensorFlow/PyTorch (recommendation engine) |
-| APIs | REST/GraphQL, WebSocket for real-time updates, API Gateway |
-| DevOps | Docker, Kubernetes (optional), CI/CD via GitHub Actions |
+| **Layer**    | **Technology Used** |
+|--------------|----------------------|
+| **Frontend** | Flutter (Mobile), React.js with HTML, CSS, JavaScript (Web) |
+| **Backend**  | Node.js (running locally for development) |
+| **Database** | No external DB integrated; using local/in-memory storage |
+| **AI/ML**    | Rule-based recommendation engine |
+| **APIs**     | Custom local APIs, Google Maps API, Socket.io (real-time), Flutter platform APIs, Local storage APIs |
 
 ---
 
