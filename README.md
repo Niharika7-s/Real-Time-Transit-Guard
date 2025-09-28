@@ -1,6 +1,6 @@
 # Real-Time Transit Guard (RTG) & Smart Product Recommendation
 
-## Problem Statement  
+## Problem Statement ... 
 
 Small retailers, such as kirana shops and HORECA outlets, rely on B2B platforms for sourcing daily supplies.  
 However, their experience is affected by multiple challenges that impact efficiency, satisfaction, and retention:  
