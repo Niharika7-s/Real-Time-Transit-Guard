@@ -28,7 +28,7 @@ However, their experience is affected by multiple challenges that impact efficie
 
 ---
 
-### 📌 Impact  
+###  Impact  
 - **Inventory inefficiencies** → Overstocking or stock-outs.  
 - **Operational delays** → Staff scheduling becomes unpredictable.  
 - **Revenue stagnation** → Missed cross-selling/upselling limits growth.  
