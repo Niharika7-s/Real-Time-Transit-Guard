@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Qwipo Home</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { margin:0; font-family:Arial,sans-serif; background:#f9f9f9; display:flex; flex-direction:column; min-height:100vh; transition:background 0.3s,color 0.3s; }
+    body.dark { background:#121212; color:#f1f1f1; }
+    header { background:linear-gradient(90deg,#ff5722,#673ab7); color:white; padding:10px 20px; display:flex; justify-content:space-between; align-items:center; }
+    header h1 { margin:0; font-size:22px; display:flex; align-items:center; }
+    header img { height:40px; width:40px; border-radius:50%; margin-right:10px; }
+    header nav a { color:white; margin:0 12px; text-decoration:none; font-weight:bold; cursor:pointer; }
+    header nav a:hover { text-decoration:underline; }
+    header nav a i { margin-right:6px; }
+    .toggle-dark { cursor:pointer; background:none; border:none; font-size:18px; color:white; }
+
+    .banner { background:#ff5722; color:white; padding:15px; text-align:center; font-size:18px; font-weight:bold; }
+    .weather-offer { background:#ffe0b2; color:#333; padding:10px; font-size:16px; border-radius:6px; margin:10px auto; max-width:600px; }
+
+    .section { padding:20px; flex:1; }
+    .section h2 { margin-bottom:12px; color:#ff5722; }
+    body.dark .section h2 { color:#ff9800; }
+
+    .search-bar { margin-bottom:20px; display:flex; gap:10px; }
+    .search-bar input, .search-bar select { padding:8px; border:1px solid #ccc; border-radius:6px; width:100%; }
+
+    .products { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; }
+    .product { background:#fff8f0; padding:15px; border-radius:10px; text-align:center; box-shadow:0 3px 6px rgba(0,0,0,0.1); transition:transform 0.2s; }
+    body.dark .product { background:#1e1e1e; color:#eee; }
+    .product:hover { transform:translateY(-5px); }
+    .product img { max-width:160px; height:160px; object-fit:cover; margin-bottom:10px; border-radius:8px; }
+    .product h3 { font-size:18px; margin:8px 0; }
+    .product p { color:#666; font-size:15px; margin:3px 0; }
+    .rating { color:gold; margin:5px 0; font-size:16px; }
+    .btn { background:#673ab7; color:white; padding:8px 12px; border:none; border-radius:6px; cursor:pointer; margin-top:6px; font-size:15px; }
+    .btn:hover { background:#512da8; }
+
+    .wishlist { font-size:22px; cursor:pointer; margin-top:6px; }
+    .wishlist:hover { transform:scale(1.2); }
+
+    .hidden { display:none; }
+    .card { background:#e8f5e9; padding:15px; margin:15px 0; border-radius:10px; box-shadow:0 3px 6px rgba(0,0,0,0.08); }
+    body.dark .card { background:#1e1e1e; }
+
+    footer { text-align:center; padding:15px; background:#ff5722; color:white; margin-top:auto; }
+
+    /* Modal */
+    .modal { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; }
+    .modal-content { background:#fff; padding:20px; width:420px; border-radius:12px; text-align:center; }
+    body.dark .modal-content { background:#1e1e1e; color:#f1f1f1; }
+    .modal-content h3 { margin-top:0; }
+    .close { float:right; font-size:20px; cursor:pointer; }
+    .cart-items { text-align:left; margin-top:15px; }
+    .cart-items p { display:flex; justify-content:space-between; }
+    .coupon-box { margin-top:15px; text-align:left; }
+    .coupon-box input { width:70%; padding:6px; border:1px solid #ccc; border-radius:6px; }
+    .coupon-box button { background:#ff5722; color:white; padding:6px 12px; border:none; border-radius:6px; cursor:pointer; margin-left:5px; }
+    .coupon-box button:hover { background:#e64a19; }
+
+    /* Popup Notification */
+    .popup { position:fixed; bottom:30px; right:30px; background:#673ab7; color:white; padding:12px 18px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.2); display:none; z-index:2000; animation:fadeIn 0.5s; }
+    @keyframes fadeIn { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
+
+    /* Profile */
+    .profile-card { max-width:600px; margin:auto; background:#fff; padding:20px; border-radius:12px; box-shadow:0 3px 6px rgba(0,0,0,0.1); }
+    .profile-pic { border-radius:50%; width:120px; height:120px; border:3px solid #673ab7; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1><img src="https://is1-ssl.mzstatic.com/image/thumb/Purple113/v4/8c/05/83/8c058368-bb8f-4b06-1e04-32a29a80a80a/source/512x512bb.jpg" alt="Qwipo"> Qwipo</h1>
+    <nav>
+      <a onclick="showSection('home')"><i class="fa fa-home"></i>Home</a>
+      <a onclick="showSection('profile')"><i class="fa fa-user"></i>Profile</a>
+      <a onclick="showSection('orders')"><i class="fa fa-box"></i>Orders</a>
+      <a onclick="openWishlist()"><i class="fa fa-heart"></i>Wishlist</a>
+      <a onclick="openCart()"><i class="fa fa-shopping-cart"></i>Cart</a>
+      <a onclick="logout()"><i class="fa fa-sign-out-alt"></i>Logout</a>
+    </nav>
+    <button class="toggle-dark" onclick="toggleDarkMode()">🌙</button>
+  </header>
+
+  <!-- Home Section -->
+  <div id="home-section">
+    <div class="banner">🎉 Flat 20% OFF for Regular Customers – Use Code: QWIPO20</div>
+    <div class="weather-offer" id="weather-offer"></div>
+
+    <div class="section">
+      <!-- Search & Filter -->
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchAndFilter()">
+        <select id="categoryFilter" onchange="searchAndFilter()">
+          <option value="all">All Categories</option>
+          <option value="grains">Grains</option>
+          <option value="oil">Oils</option>
+          <option value="snacks">Snacks</option>
+          <option value="chips">Chips</option>
+          <option value="dryfruits">Dry Fruits</option>
+        </select>
+      </div>
+
+      <h2>Popular Products</h2>
+      <div class="products" id="main-products">
+        <!-- Grains -->
+        <div class="product" data-category="grains">
+          <img src="https://c8.alamy.com/comp/DWRAP7/white-uncooked-basmati-rice-in-burlap-bag-DWRAP7.jpg">
+          <h3>Basmati Rice</h3><p>₹950 / 25kg</p>
+          <div class="rating">⭐⭐⭐⭐☆</div>
+          <button class="btn" onclick="addToCart('Basmati Rice',950,'grains')">Add to Cart</button>
+          <div class="wishlist" onclick="toggleWishlist('Basmati Rice', this,'grains')">🤍</div>
+        </div>
+        <div class="product" data-category="grains">
+          <img src="https://cdn.shopify.com/s/files/1/0609/1427/0467/files/Blog_Images_79_480x480.png?v=1686995128">
+          <h3>Brown Rice</h3><p>₹800 / 25kg</p>
+          <div class="rating">⭐⭐⭐⭐</div>
+          <button class="btn" onclick="addToCart('Brown Rice',800,'grains')">Add to Cart</button>
+          <div class="wishlist" onclick="toggleWishlist('Brown Rice', this,'grains')">🤍</div>
+        </div>
+
+        <!-- Oils -->
+        <div class="product" data-category="oil">
+          <img src="https://www.naatigrains.com/image/cache/catalog/Sunflower%20Oil-1000x1000.jpg">
+          <h3>Sunflower Oil</h3><p>₹120 / L</p>
+          <div class="rating">⭐⭐⭐⭐⭐</div>
+          <button class="btn" onclick="addToCart('Sunflower Oil',120,'oil')">Add to Cart</button>
+          <div class="wishlist" onclick="toggleWishlist('Sunflower Oil', this,'oil')">🤍</div>
+        </div>
+        <div class="product" data-category="oil">
+          <img src="https://www.surbhiutpad.com/wp-content/uploads/2023/07/groundnut-oil.png">
+          <h3>Groundnut Oil</h3><p>₹150 / L</p>
+          <div class="rating">⭐⭐⭐⭐</div>
+          <button class="btn" onclick="addToCart('Groundnut Oil',150,'oil')">Add to Cart</button>
+          <div class="wishlist" onclick="toggleWishlist('Groundnut Oil', this,'oil')">🤍</div>
+        </div>
+
+        <!-- Snacks -->
+        <div class="product" data-category="snacks">
+          <img src="https://m.media-amazon.com/images/S/aplus-media/vc/d035a208-fdba-4426-80b6-8857fe238826.__CR0,0,970,600_PT0_SX970_V1___.jpg">
+          <h3>Good Day Cookies</h3><p>₹90 / Pack</p>
+          <div class="rating">⭐⭐⭐⭐☆</div>
+          <button class="btn" onclick="addToCart('Good Day Cookies',90,'snacks')">Add to Cart</button>
+          <div class="wishlist" onclick="toggleWishlist('Good Day Cookies', this,'snacks')">🤍</div>
+        </div>
+        <div class="product" data-category="snacks">
+          <img src="https://www.bigbasket.com/media/uploads/p/l/264572-2_5-britannia-marie-gold-biscuits.jpg">
+          <h3>Marie Gold</h3><p>₹70 / Pack</p>
+          <div class="rating">⭐⭐⭐☆☆</div>
+          <button class="btn" onclick="addToCart('Marie Gold',70,'snacks')">Add to Cart</button>
+          <div class="wishlist" onclick="toggleWishlist('Marie Gold', this,'snacks')">🤍</div>
+        </div>
+
+        <!-- Chips -->
+        <div class="product" data-category="chips">
+          <img src="https://tse3.mm.bing.net/th/id/OIP.daY76EKxsq5hPeO5AovAMwAAAA?rs=1&pid=ImgDetMain&o=7&rm=3">
+          <h3>Lays Chips</h3><p>₹30 / Pack</p>
+          <div class="rating">⭐⭐⭐⭐</div>
+          <button class="btn" onclick="addToCart('Lays Chips',30,'chips')">Add to Cart</button>
+          <div class="wishlist" onclick="toggleWishlist('Lays Chips', this,'chips')">🤍</div>
+        </div>
+
+        <!-- Dry Fruits -->
+        <div class="product" data-category="dryfruits">
+          <img src="https://cdn2.stylecraze.com/wp-content/uploads/2013/05/Cashew-Nuts-Potential-Health-Benefits-Nutrition-Facts-And-Possible-Side-Effect.jpg">
+          <h3>Cashew Nuts</h3><p>₹450 / 500g</p>
+          <div class="rating">⭐⭐⭐⭐⭐</div>
+          <button class="btn" onclick="addToCart('Cashew Nuts',450,'dryfruits')">Add to Cart</button>
+          <div class="wishlist" onclick="toggleWishlist('Cashew Nuts', this,'dryfruits')">🤍</div>
+        </div>
+        <div class="product" data-category="dryfruits">
+          <img src="https://resize.indiatvnews.com/en/resize/newbucket/1200_-/2021/05/pjimage-14-1622025328.jpg">
+          <h3>Pista</h3><p>₹450 / 500g</p>
+          <div class="rating">⭐⭐⭐⭐</div>
+          <button class="btn" onclick="addToCart('Pista',450,'dryfruits')">Add to Cart</button>
+          <div class="wishlist" onclick="toggleWishlist('Pista', this,'dryfruits')">🤍</div>
+      </div>
+        <div class="product" data-category="dryfruits">
+          <img src="https://www.aahaarexpert.com/wp-content/uploads/2018/01/almond-1024x1024.jpg">
+          <h3>Almonds</h3><p>₹350 / 500g</p>
+          <div class="rating">⭐⭐⭐⭐⭐</div>
+          <button class="btn" onclick="addToCart('Almonds',350,'dryfruits')">Add to Cart</button>
+          <div class="wishlist" onclick="toggleWishlist('Almonds', this,'dryfruits')">🤍</div>
+      </div>
+      <div class="product" data-category="Vegetables & Fruits">
+          <img src="https://tse3.mm.bing.net/th/id/OIP.JMRIOYp2jmlICSlEma_3gQHaE7?rs=1&pid=ImgDetMain&o=7&rm=3">
+          <h3>Tomatoes</h3><p>₹80 /1kg</p>
+          <div class="rating">⭐⭐⭐⭐</div>
+          <button class="btn" onclick="addToCart('Tomatoes',80,'Vegetables & Fruits')">Add to Cart</button>
+          <div class="wishlist" onclick="toggleWishlist('Tomatoes', this,'Vegetables & Fruits')">🤍</div>
+      </div>
+      <div class="product" data-category="Vegetables & Fruits">
+          <img src="https://www.farmersalmanac.com/wp-content/uploads/2020/11/Adocortland_apples-as225320764.jpeg">
+          <h3>Apples</h3><p>₹350 / 3kg</p>
+          <div class="rating">⭐⭐⭐⭐⭐</div>
+          <button class="btn" onclick="addToCart('Apples',350,'Vegetables & Fruits')">Add to Cart</button>
+          <div class="wishlist" onclick="toggleWishlist('Apples', this,'Vegetables & Fruits')">🤍</div>
+      </div>
+      </div>
+      <!-- Recommended Section -->
+      <h2>Recommended For You</h2>
+      <div class="products" id="recommended-products"></div>
+    </div>
+  </div>
+
+  <!-- Profile Section -->
+<div id="profile-section" class="hidden section">
+  <h2>My Profile</h2>
+  <div style="max-width:600px;margin:auto;background:#fff;padding:25px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+    
+    <!-- Profile Picture -->
+    <div style="text-align:center; margin-bottom:20px;">
+      <img id="profilePic" src="https://via.placeholder.com/150" 
+           style="border-radius:50%; width:150px; height:150px; border:4px solid #673ab7; object-fit:cover; box-shadow:0 3px 6px rgba(0,0,0,0.2);">
+      <br><br>
+      <input type="file" id="picUpload" accept="image/*" onchange="uploadPic(event)" style="margin-top:10px;">
+    </div>
+
+    <!-- Profile Form -->
+    <form>
+      <label><b>Full Name</b></label>
+      <input type="text" id="pname" value="John Doe" class="profile-input"><br>
+
+      <label><b>Phone Number</b></label>
+      <input type="text" id="pphone" value="9876543210" class="profile-input"><br>
+
+      <label><b>Email</b></label>
+      <input type="email" id="pemail" value="john@example.com" class="profile-input"><br>
+
+      <label><b>Password</b></label>
+      <input type="password" id="ppassword" placeholder="Enter new password" class="profile-input"><br>
+
+      <label><b>Address</b></label>
+      <textarea id="paddress" rows="3" class="profile-input">123, Main Street, Hyderabad</textarea><br>
+
+      <label><b>Preferred Categories</b></label>
+      <select id="pcategories" class="profile-input" multiple>
+        <option value="grains">Grains</option>
+        <option value="oil">Oils</option>
+        <option value="snacks">Snacks</option>
+        <option value="dryfruits">Dry Fruits</option>
+        <option value="chips">Chips</option>
+      </select><br><br>
+
+      <label><b>Delivery Instructions</b></label>
+      <textarea id="pinstructions" rows="2" class="profile-input" placeholder="E.g. Leave package at the door"></textarea><br>
+
+      <button type="button" class="btn" style="width:100%;font-size:16px;padding:10px 0;" onclick="saveProfile()">Save Profile</button>
+    </form>
+
+    <!-- Coins & Rewards -->
+    <div style="margin-top:20px; text-align:center; font-size:16px; color:#673ab7; font-weight:bold;">
+      💰 Coins Balance: <span id="coins-balance">0</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .profile-input {
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    border:1px solid #ccc;
+    border-radius:6px;
+    font-size:15px;
+  }
+</style>
+
+<script>
+  function uploadPic(e){ 
+    let f=e.target.files[0]; 
+    if(f) document.getElementById("profilePic").src=URL.createObjectURL(f); 
+  }
+
+  function saveProfile(){
+    let name=document.getElementById("pname").value;
+    let phone=document.getElementById("pphone").value;
+    let email=document.getElementById("pemail").value;
+    let password=document.getElementById("ppassword").value;
+    let address=document.getElementById("paddress").value;
+    let categories=[...document.getElementById("pcategories").selectedOptions].map(o=>o.value);
+    let instructions=document.getElementById("pinstructions").value;
+
+    alert("✅ Profile Saved!\n\nName: "+name+"\nPhone: "+phone+"\nEmail: "+email+
+          "\nAddress: "+address+"\nCategories: "+categories.join(", ")+
+          "\nInstructions: "+instructions+(password? "\nPassword Updated ✔" : ""));
+  }
+</script>
+
+  </div>
+
+  <!-- Orders Section -->
+  <div id="orders-section" class="hidden section">
+    <h2>My Orders</h2>
+    <div id="orders-list"><p>No orders available</p></div>
+  </div>
+
+  <!-- Cart Modal -->
+  <div id="cartModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeCart()">&times;</span>
+      <h3>Your Cart</h3>
+      <div class="cart-items" id="cart-items"></div>
+      <h4>Total: ₹<span id="cart-total">0</span></h4>
+      <div class="coupon-box">
+        <input type="text" id="couponInput" placeholder="Enter Coupon">
+        <button onclick="applyCoupon()">Apply</button>
+      </div>
+      <div class="coupon-box">
+        <p>💰 You have <b><span id="coins-balance-cart">0</span> Coins</b></p>
+        <input type="number" id="coinsInput" min="1" placeholder="Coins to Redeem">
+        <button onclick="redeemCoins()">Redeem</button>
+      </div><br>
+      <button class="btn" onclick="placeOrder()">Place Order</button>
+    </div>
+  </div>
+
+  <!-- Wishlist Modal -->
+  <div id="wishlistModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeWishlist()">&times;</span>
+      <h3>My Wishlist</h3>
+      <div id="wishlist-items"></div>
+      <p><b>Total Items:</b> <span id="wishlist-count">0</span></p>
+    </div>
+  </div>
+
+  <!-- Popup Notification -->
+  <div id="popup" class="popup"></div>
+  <!-- Popup container -->
+<div id="popup-container" class="popup-container"></div>
+
+<style>
+  .popup-container {
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    z-index:5000;
+  }
+  .popup {
+    min-width:240px;
+    color:white;
+    padding:12px 14px;
+    border-radius:10px;
+    font-weight:700;
+    box-shadow:0 6px 16px rgba(0,0,0,0.2);
+    background:#673ab7; /* default */
+    transition:all 0.3s;
+  }
+  .popup.coins {
+    background:linear-gradient(135deg,#66bb6a,#2e7d32);
+  }
+</style>
+
+<script>
+  // Popup function (ONLY JS here, no HTML)
+  function showPopup(msg, type='offer'){
+    const container = document.getElementById('popup-container');
+    const node = document.createElement('div');
+    node.className = 'popup ' + type;
+    node.innerHTML = `<div>${msg}</div>`;
+    container.appendChild(node);
+
+    setTimeout(()=>{
+      node.style.opacity = '0';
+      node.style.transform = 'translateX(20px)';
+      setTimeout(()=>node.remove(),700);
+    },3000);
+  }
+</script>
+
+
+  <footer>© 2025 Qwipo – B2C Marketplace for Consumers</footer>
+
+  <script>
+    // Weather Offers
+    const offers = {
+      sunny: "☀️ Today’s weather is sunny – Get 10% OFF on Cold Drinks!",
+      rainy: "🌧 Rainy day! Enjoy 15% OFF on Hot Tea & Snacks!",
+      cloudy: "☁️ Cloudy skies – Flat 5% OFF on All Groceries!",
+      winter: "❄️ Winter Sale – 20% OFF on Oils & Dry Fruits!"
+    };
+    document.getElementById("weather-offer").innerText =
+      offers[Object.keys(offers)[Math.floor(Math.random() * 4)]];
+
+    // Dark Mode
+    function toggleDarkMode(){ document.body.classList.toggle("dark"); }
+    function showSection(section){
+      ["home","profile","orders"].forEach(s=>{
+        let el=document.getElementById(s+"-section"); if(el) el.classList.add("hidden");
+      });
+      if(document.getElementById(section+"-section")) document.getElementById(section+"-section").classList.remove("hidden");
+    }
+    function logout(){ alert("Logged out!"); }
+
+    // Data
+    let cart = [], orders = [], wishlist = [], purchaseHistory = [], coins = 0;
+
+    // Cart
+    function addToCart(item, price, category){
+      cart.push({item, price, category});
+      purchaseHistory.push({item, category});
+      coins += 5;
+      document.getElementById("coins-balance").innerText=coins;
+      document.getElementById("coins-balance-cart").innerText=coins;
+      showPopup(`🎁 You earned 5 coins for adding ${item}!`);
+      updateRecommendations();
+    }
+    function openCart(){ document.getElementById("cartModal").style.display="flex"; renderCart(); }
+    function closeCart(){ document.getElementById("cartModal").style.display="none"; }
+    function renderCart(){
+      let c=document.getElementById("cart-items"); c.innerHTML=""; let t=0;
+      cart.forEach(x=>{ t+=x.price; c.innerHTML+=`<p>${x.item}<span>₹${x.price}</span></p>`; });
+      document.getElementById("cart-total").innerText=t;
+      document.getElementById("coins-balance-cart").innerText=coins;
+    }
+    function applyCoupon(){
+      let code=document.getElementById("couponInput").value;
+      let t=parseInt(document.getElementById("cart-total").innerText);
+      if(code==="QWIPO20" && t>0){ document.getElementById("cart-total").innerText=t*0.8; alert("Coupon Applied!"); }
+      else alert("Invalid Coupon");
+    }
+    function redeemCoins(){
+      let redeem=parseInt(document.getElementById("coinsInput").value);
+      let total=parseInt(document.getElementById("cart-total").innerText);
+      if(isNaN(redeem)||redeem<=0){ alert("Enter valid coins"); return; }
+      if(redeem>coins){ alert("Not enough coins!"); return; }
+      if(redeem>total){ alert("Coins exceed bill!"); return; }
+      coins -= redeem;
+      total -= redeem;
+      document.getElementById("cart-total").innerText=total;
+      document.getElementById("coins-balance").innerText=coins;
+      document.getElementById("coins-balance-cart").innerText=coins;
+      alert(`✅ Redeemed ${redeem} coins!`);
+    }
+    function placeOrder(){
+      if(cart.length===0){ alert("Cart empty!"); return; }
+      let o={id:orders.length+1, date:new Date().toLocaleString(), products:[...cart]};
+      orders.push(o); cart=[]; closeCart(); renderOrders(); alert("Order Placed!");
+      updateRecommendations();
+    }
+    function renderOrders(){
+  let c=document.getElementById("orders-list"); 
+  c.innerHTML="";
+  if(orders.length===0){ 
+    c.innerHTML="<p>No orders available</p>"; 
+    return; 
+  }
+  orders.forEach(o=>{
+    let html=`<div class="card">
+                <h4>Order #${o.id}</h4>
+                <p><b>Date:</b> ${o.date}</p>`;
+    o.products.forEach(p=>html+=`<p>${p.item} - ₹${p.price}</p>`);
+    
+    // ✅ Live Tracking Button
+    html+=`<button class="btn" onclick="trackOrder(${o.id})">📍 Live Tracking</button>`;
+    
+    html+="</div>";
+    c.innerHTML+=html;
+  });
+    }
+    // Live Tracking (Simulated)
+    function trackOrder(orderId){
+      alert(`Tracking Order #${orderId}...\n\n🚚 Your order is out for delivery!`);
+    }
+
+    // Wishlist
+    function toggleWishlist(item,el,cat){
+      if(wishlist.find(w=>w.item===item)){ wishlist=wishlist.filter(i=>i.item!==item); el.innerText="🤍"; }
+      else { wishlist.push({item,category:cat}); el.innerText="❤️"; }
+      document.getElementById("wishlist-count").innerText=wishlist.length;
+      updateRecommendations();
+    }
+    function openWishlist(){ document.getElementById("wishlistModal").style.display="flex"; renderWishlist(); }
+    function closeWishlist(){ document.getElementById("wishlistModal").style.display="none"; }
+    function renderWishlist(){
+      let c=document.getElementById("wishlist-items");
+      c.innerHTML=wishlist.length? wishlist.map(i=>"<p>"+i.item+"</p>").join(""):"<p>No items in wishlist</p>";
+    }
+
+    // Recommendations
+    function updateRecommendations(){
+      let c=document.getElementById("recommended-products"); c.innerHTML="";
+      let rec=[];
+      wishlist.forEach(w=>{
+        document.querySelectorAll("#main-products .product").forEach(p=>{
+          let pname=p.querySelector("h3").innerText, pc=p.dataset.category;
+          if(pc===w.category && pname!==w.item && !rec.includes(p.outerHTML)) rec.push(p.outerHTML);
+        });
+      });
+      cart.forEach(ci=>{
+        document.querySelectorAll("#main-products .product").forEach(p=>{
+          let pname=p.querySelector("h3").innerText, pc=p.dataset.category;
+          if(pc===ci.category && pname!==ci.item && !rec.includes(p.outerHTML)) rec.push(p.outerHTML);
+        });
+      });
+      if(purchaseHistory.length>0){
+        let last=purchaseHistory[purchaseHistory.length-1];
+        document.querySelectorAll("#main-products .product").forEach(p=>{
+          let pname=p.querySelector("h3").innerText, pc=p.dataset.category;
+          if(pc===last.category && pname!==last.item && !rec.includes(p.outerHTML)) rec.push(p.outerHTML);
+        });
+      }
+      if(rec.length===0){
+        rec.push(`<div class="product"><img src="https://image.freepik.com/free-photo/indian-mix-namkeen_57665-5346.jpg"><h3>Mix Namkeen</h3><p>₹150</p><div class="rating">⭐⭐⭐⭐</div><button class="btn" onclick="addToCart('Mix Namkeen',150,'snacks')">Add to Cart</button><div class="wishlist" onclick="toggleWishlist('Mix Namkeen',this,'snacks')">🤍</div></div>`);
+      }
+      c.innerHTML=rec.slice(0,4).join("");
+    }
+
+    // Search + Filter
+    function searchAndFilter(){
+      let t=document.getElementById("searchInput").value.toLowerCase();
+      let cat=document.getElementById("categoryFilter").value;
+      document.querySelectorAll(".product").forEach(p=>{
+        let n=p.querySelector("h3").innerText.toLowerCase(), pc=p.dataset.category;
+        p.style.display=(n.includes(t)&&(cat==="all"||pc===cat))?"block":"none";
+      });
+    }
+
+    // Profile
+    function uploadPic(e){ let f=e.target.files[0]; if(f) document.getElementById("profilePic").src=URL.createObjectURL(f); }
+    function saveProfile(){ alert("Profile saved successfully!"); }
+
+    // Popup
+    <!-- Popup Notification -->
+    function showPopup(msg){
+      let p=document.getElementById("popup");
+      p.innerText=msg; p.style.display="block";
+      setTimeout(()=>{ p.style.display="none"; },3000);
+    }
+    
+
+  </script>
+</body>
+</html>
