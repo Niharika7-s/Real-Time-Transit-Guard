@@ -1,15 +1,38 @@
 # Real-Time Transit Guard (RTG) & Smart Product Recommendation
 
-## Problem Statement
-Local vendors, including kirana stores and HORECA businesses, rely on B2B platforms for supplies but face several operational challenges:
+## Problem Statement  
 
-- **Product Visibility Issues:** Many relevant products go unnoticed, limiting inventory variety.  
-- **Repetitive Purchasing:** Retailers often reorder the same items, missing opportunities for cross-selling.  
-- **Flat Order Value:** Average Order Value (AOV) remains stagnant without personalized suggestions.  
-- **Unclear Order Status:** Generic updates like “Dispatched” force vendors to make multiple follow-up calls.  
-- **Low Platform Retention:** Around one-third of retailers stop using the platform within six months due to poor shopping experiences.  
+Small retailers, such as kirana shops and HORECA outlets, rely on B2B platforms for sourcing daily supplies.  
+However, their experience is affected by multiple challenges that impact efficiency, satisfaction, and retention:  
 
-These challenges cause inefficiencies in inventory management, staff scheduling, and revenue optimization.  
+### Key Challenges  
+1. **Poor Product Discovery**  
+   - Large catalogs exist, but many useful items remain hidden.  
+   - Retailers keep buying the same known products, missing chances to diversify inventory.  
+
+2. **Routine, Repetitive Buying**  
+   - Vendors reorder the same items without exploring alternatives.  
+   - Cross-selling and upselling opportunities are often lost.  
+
+3. **Flat Average Order Value (AOV)**  
+   - Lack of tailored suggestions keeps basket size stagnant.  
+   - No personalized promotions or bundling to increase AOV.  
+
+4. **Unclear Delivery Timelines**  
+   - Order updates are vague (e.g., “Dispatched”).  
+   - Retailers make repeated follow-up calls due to uncertainty.  
+
+5. **Weak User Retention**  
+   - Many retailers leave the platform within months.  
+   - Poor personalization and communication reduce loyalty.  
+
+---
+
+### 📌 Impact  
+- **Inventory inefficiencies** → Overstocking or stock-outs.  
+- **Operational delays** → Staff scheduling becomes unpredictable.  
+- **Revenue stagnation** → Missed cross-selling/upselling limits growth.  
+- **User frustration** → Vendors disengage and return to offline suppliers.  
 
 ---
 
