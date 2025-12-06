@@ -1,4 +1,4 @@
-# Real-Time Transit Guard (RTG) & Smart Product Recommendation
+# Real-Time Transit Guard (RTG) & Smart Product Recommendation.
 
 ## Problem Statement 
 
